@@ -1,0 +1,33 @@
+questions:
+- variable: ingress.ui.host
+  group: Ingress
+  show_if: "ingress.enabled=true"
+  default: "false"
+  description: > 
+    Host used to access UI externally. For instance, genieacs-ui.example.com or 
+    genieacs-ui.192.168.1.1.nip.io
+- variable: ingress.nbi.host
+  group: Ingress
+  show_if: "ingress.enabled=true"
+  default: "false"
+  description: > 
+    Host used to access NBI externally. For instance, genieacs-nbi.example.com or genieacs-nbi.192.168.1.1.nip.io
+- variable: service_fs.load_balancer_IP
+  group: File Server
+  required: "true"
+  default: "false"
+  description: > 
+    IP address to be allocated by LoadBalancer for genieACS FS service.
+- variable: service_cwmp.load_balancer_IP
+  group: CWMP
+  default: null
+  description: > 
+    IP address to be allocated by LoadBalancer for genieACS CWMP service. If not specified, LoadBalancer controller will 
+    assign randomly (if available)
+- variable: env.GENIEACS_FS_URL_PREFIX
+  group: File Server
+  required: "true"
+  default: "false"
+  description: > 
+    URL used to download files from genieaACS FS. It must follow the format:  
+    http://<genieaACS FS IP address or host>:<GENIEACS_FS_PORT>/, for instance: http://192.168.1.1:7567/

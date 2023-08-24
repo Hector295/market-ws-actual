@@ -1,0 +1,58 @@
+replicaCount: 2
+image:
+  repository: gcr.io/whitestack/whitecruiser/genieacs
+  pullPolicy: IfNotPresent
+  tag: "poc-1.2.9"
+autoscaling:
+  enabled: false
+serviceAccount:
+  create: false
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+#     kubernetes.io/tls-acme: "true"
+  ui:
+    host: genieacs-ui.example.com
+    path: /
+    pathType: ImplementationSpecific
+  nbi:
+    host: genieacs-nbi.example.com
+    path: /
+    pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+resources: # Modify according to your size
+  requests:
+    cpu: 250m
+    memory: 1Gi
+env:
+  GENIEACS_NBI_PORT: 7557
+  GENIEACS_CWMP_PORT: 7547
+  GENIEACS_FS_PORT: 7567
+  GENIEACS_UI_PORT: 3000
+  GENIEACS_DEBUG_FILE: /var/log/genieacs/genieacs-debug.yaml
+  GENIEACS_EXT_DIR: /opt/genieacs/ext
+  GENIEACS_CWMP_LOG_FILE: /var/log/genieacs/genieacs-cwmp.log
+  GENIEACS_NBI_LOG_FILE: /var/log/genieacs/genieacs-nbi.log
+  GENIEACS_FS_LOG_FILE: /var/log/genieacs/genieacs-fs.log
+  GENIEACS_UI_LOG_FILE: /var/log/genieacs/genieacs-ui.log
+  GENIEACS_FS_URL_PREFIX: "http://<changeme>:7567/"
+envSecrets:
+  GENIEACS_UI_JWT_SECRET: genieacs-secret
+service_http:
+  type: ClusterIP
+  port_http: 3000
+service_cwmp:
+  type: LoadBalancer
+  port_cwmp: 7547
+  loadBalancerIP: null
+service_nbi:
+  type: ClusterIP
+  port_nbi: 7557
+service_fs:
+  type: LoadBalancer
+  port_fs: 7567
+  load_balancer_IP: <changeme>

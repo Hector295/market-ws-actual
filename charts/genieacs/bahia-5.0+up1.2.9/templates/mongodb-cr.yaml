@@ -1,0 +1,26 @@
+---
+apiVersion: mongodbcommunity.mongodb.com/v1
+kind: MongoDBCommunity
+metadata:
+  name: genieacs-mongodb
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade,post-delete
+    "helm.sh/hook-weight": "1"
+spec:
+  members: 2
+  arbiters: 1
+  type: ReplicaSet
+  version: "4.4.13"
+  security:
+    authentication:
+      modes: ["SCRAM"]
+  users:
+    - name: genieacs
+      db: genieacs
+      passwordSecretRef: # a reference to the secret that will be used to generate the user's password
+        name: genieacs-secret
+        key: mongodb-password
+      roles:
+        - name: dbOwner
+          db: genieacs
+      scramCredentialsSecretName: genieacs
