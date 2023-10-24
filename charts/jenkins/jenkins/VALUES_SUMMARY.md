@@ -22,20 +22,21 @@ The following tables list the configurable parameters of the Jenkins chart and t
 
 #### Jenkins Configuration as Code (JCasC)
 
-| Parameter                         | Description                          | Default                                                           |
-| --------------------------------- | ------------------------------------ |-------------------------------------------------------------------|
-| `controller.JCasC.defaultConfig`      | Enables default Jenkins configuration via configuration as code plugin | `true`                                                            |
-| `controller.JCasC.configScripts`      | List of Jenkins Config as Code scripts | `{}`                                                              |
-| `controller.JCasC.security`      | Jenkins Config as Code for Security section | `legacy`                                                          |
-| `controller.JCasC.securityRealm`      | Jenkins Config as Code for Security Realm | `legacy`                                                          |
-| `controller.JCasC.authorizationStrategy` | Jenkins Config as Code for Authorization Strategy | `loggedInUsersCanDoAnything`                                      |
-| `controller.sidecars.configAutoReload` | Jenkins Config as Code auto-reload settings |                                                                   |
-| `controller.sidecars.configAutoReload.enabled` | Jenkins Config as Code auto-reload settings (Attention: rbac needs to be enabled otherwise the sidecar can't read the config map) | `true`                                                            |
-| `controller.sidecars.configAutoReload.image` | Image which triggers the reload | `kiwigrid/k8s-sidecar:1.24.4`                                     |
-| `controller.sidecars.configAutoReload.reqRetryConnect` | How many connection-related errors to retry on  | `10`                                                              |
-| `controller.sidecars.configAutoReload.envFrom` | Environment variable sources for the Jenkins Config as Code auto-reload container | Not set                                                           |
-| `controller.sidecars.configAutoReload.env` | Environment variables for the Jenkins Config as Code auto-reload container  | Not set                                                           |
-| `controller.sidecars.configAutoReload.containerSecurityContext` | Enable container security context | `{readOnlyRootFilesystem: true, allowPrivilegeEscalation: false}` |
+| Parameter                                                       | Description                                                                                                                       | Default                                                           |
+|-----------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
+| `controller.JCasC.defaultConfig`                                | Enables default Jenkins configuration via configuration as code plugin                                                            | `true`                                                            |
+| `controller.JCasC.configScripts`                                | List of Jenkins Config as Code scripts                                                                                            | `{}`                                                              |
+| `controller.JCasC.security`                                     | Jenkins Config as Code for Security section                                                                                       | `legacy`                                                          |
+| `controller.JCasC.securityRealm`                                | Jenkins Config as Code for Security Realm                                                                                         | `legacy`                                                          |
+| `controller.JCasC.authorizationStrategy`                        | Jenkins Config as Code for Authorization Strategy                                                                                 | `loggedInUsersCanDoAnything`                                      |
+| `controller.sidecars.configAutoReload`                          | Jenkins Config as Code auto-reload settings                                                                                       |                                                                   |
+| `controller.sidecars.configAutoReload.enabled`                  | Jenkins Config as Code auto-reload settings (Attention: rbac needs to be enabled otherwise the sidecar can't read the config map) | `true`                                                            |
+| `controller.sidecars.configAutoReload.image`                    | Image which triggers the reload                                                                                                   | `kiwigrid/k8s-sidecar:1.24.4`                                     |
+| `controller.sidecars.configAutoReload.reqRetryConnect`          | How many connection-related errors to retry on                                                                                    | `10`                                                              |
+| `controller.sidecars.configAutoReload.sleepTime`                | How many seconds to wait before updating config-maps/secrets (sets METHOD=SLEEP on the sidecar)                                   | Not set                                                           |
+| `controller.sidecars.configAutoReload.envFrom`                  | Environment variable sources for the Jenkins Config as Code auto-reload container                                                 | Not set                                                           |
+| `controller.sidecars.configAutoReload.env`                      | Environment variables for the Jenkins Config as Code auto-reload container                                                        | Not set                                                           |
+| `controller.sidecars.configAutoReload.containerSecurityContext` | Enable container security context                                                                                                 | `{readOnlyRootFilesystem: true, allowPrivilegeEscalation: false}` |
 
 #### Jenkins Configuration Files & Scripts
 
@@ -313,6 +314,8 @@ The following tables list the configurable parameters of the Jenkins chart and t
 | `agent.kubernetesConnectTimeout` | The connection timeout in seconds for connections to Kubernetes API. Minimum value is 5. | 5 |
 | `agent.kubernetesReadTimeout` | The read timeout in seconds for connections to Kubernetes API. Minimum value is 15.      | 15 |
 | `agent.maxRequestsPerHostStr` | The maximum concurrent connections to Kubernetes API                                     | 32 |
+| `agent.retentionTimeout`      | Time in minutes after which the Kubernetes cloud plugin will clean up an idle worker that has not already terminated | 5 |
+| `agent.waitForPodSec`         | Seconds to wait for pod to be running                                                    | 600 |
 | `agent.podLabels`             | Custom Pod labels (an object with `label-key: label-value` pairs)                        | Not set                         |
 | `agent.jnlpregistry`          | Custom docker registry used for to get agent jnlp image                                  | Not set                         |
 

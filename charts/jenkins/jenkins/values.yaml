@@ -22,7 +22,7 @@ controller:
   # Used for label app.kubernetes.io/component
   componentName: "jenkins-controller"
   image: "jenkins/jenkins"
-  # tag: "2.414.2-jdk11"
+  # tag: "2.414.3-jdk11"
   tagLabel: jdk11
   imagePullPolicy: "Always"
   imagePullSecretName:
@@ -630,6 +630,8 @@ agent:
   kubernetesConnectTimeout: 5
   kubernetesReadTimeout: 15
   maxRequestsPerHostStr: "32"
+  retentionTimeout: 5
+  waitForPodSec: 600
   namespace:
   # private registry for agent image
   jnlpregistry:
@@ -651,9 +653,11 @@ agent:
     requests:
       cpu: "512m"
       memory: "512Mi"
+      # ephemeralStorage:
     limits:
       cpu: "512m"
       memory: "512Mi"
+      # ephemeralStorage:
   livenessProbe: {}
 #    execArgs: "cat /tmp/healthy"
 #    failureThreshold: 3
