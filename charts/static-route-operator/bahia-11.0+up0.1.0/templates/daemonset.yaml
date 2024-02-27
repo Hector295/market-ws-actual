@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "chart.fullname" . }}
+  labels:
+  {{- include "chart.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      name: static-route-operator
+    {{- include "chart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        name: static-route-operator
+      {{- include "chart.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: OPERATOR_NAME
+          value: static-route-operator
+        - name: NODE_HOSTNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: cluster.local
+        image: "{{ .Values.staticRouteOperator.image.repository }}:{{ .Values.staticRouteOperator.image.tag }}"
+        imagePullPolicy: IfNotPresent
+        name: static-route-operator
+        resources: {}
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+          runAsGroup: 2000
+          runAsUser: 2000
+      hostNetwork: true
+      serviceAccountName: {{ include "chart.fullname" . }}
+      tolerations:
+      - operator: Exists

@@ -1,0 +1,5 @@
+staticRouteOperator:
+  image:
+    repository: gcr.io/whitestack/static-route-operator
+    tag: latest
+  imagePullPolicy: Always
