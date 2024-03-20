@@ -95,6 +95,8 @@ spec:
           name: run
         - mountPath: /etc/systemd
           name: systemd
+        - mountPath: /etc/host/hosts
+          name: hosts
       serviceAccountName: {{ include "chart.fullname" . }}-controller-manager
       terminationGracePeriodSeconds: 10
       tolerations:
@@ -123,3 +125,6 @@ spec:
       - hostPath:
           path: /etc/systemd
         name: systemd
+      - hostPath:
+          path: /etc/hosts
+        name: hosts

@@ -35,6 +35,19 @@ spec:
           spec:
             description: NodeConfigSpec defines the desired state of NodeConfig
             properties:
+              hosts:
+                description: List of hosts to install to /etc/hosts
+                items:
+                  properties:
+                    hostname:
+                      type: string
+                    ip:
+                      type: string
+                  required:
+                  - hostname
+                  - ip
+                  type: object
+                type: array
               kernelModules:
                 description: List of kernel modules to load
                 items:
