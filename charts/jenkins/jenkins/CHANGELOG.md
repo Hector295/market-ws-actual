@@ -12,6 +12,42 @@ Use the following links to reference issues, PRs, and commits prior to v2.6.0.
 The changelog until v1.5.7 was auto-generated based on git commits.
 Those entries include a reference to the git commit to be able to get more details.
 
+## 5.1.18
+
+Update `configuration-as-code` to version `1807.v0175eda_00a_20`
+
+## 5.1.17
+
+Update `jenkins/inbound-agent` to version `3248.v65ecb_254c298-1`
+
+## 5.1.16
+
+Update `configuration-as-code` to version `1805.v1455f39c04cf`
+
+## 5.1.15
+
+Update `jenkins/jenkins` to version `2.452.1-jdk17`
+
+## 5.1.14
+
+Update `kubernetes` to version `4219.v40ff98cfb_d6f`
+
+## 5.1.13
+
+Update `docker.io/kiwigrid/k8s-sidecar` to version `1.27.1`
+
+## 5.1.12
+
+Update `git` to version `5.2.2`
+
+## 5.1.11
+
+Update `kubernetes` to version `4214.vf10083a_42e70`
+
+## 5.1.10
+
+Update `kubernetes` to version `4211.v08850dd0dfa_3`
+
 ## 5.1.9
 
 Update `docker.io/kiwigrid/k8s-sidecar` to version `1.26.2`
