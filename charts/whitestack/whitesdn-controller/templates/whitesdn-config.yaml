@@ -6,6 +6,5 @@ metadata:
   {{- include "helm.labels" . | nindent 4 }}
 data:
   AVAILABILITY_ZONE: {{ .Values.whitesdnConfig.availabilityZone | quote }}
-  NS_UUID: {{ .Values.whitesdnConfig.nsUuid | quote }}
   URL: {{ .Values.whitesdnConfig.url | quote }}
   USER: {{ .Values.whitesdnConfig.user | quote }}

@@ -32,8 +32,8 @@ manager:
         drop:
         - ALL
     image:
-      repository: gcr.io/whitestack/whitesdn-controller
-      tag: latest
+      repository: gcr.io/whitestack/whitecruiser/whitesdn-controller
+      tag: bahia
     resources:
       limits:
         cpu: 500m
@@ -41,7 +41,7 @@ manager:
       requests:
         cpu: 10m
         memory: 64Mi
-  replicas: 3
+  replicas: 1
   serviceAccount:
     annotations: {}
 metricsService:
@@ -53,7 +53,6 @@ metricsService:
   type: ClusterIP
 whitesdnConfig:
   availabilityZone: WCRUISER_test-zone
-  nsUuid: 98312b11-114e-44f9-8937-d417dabbb8cf
   url: http://whitesdn.ocp2.tcloud.whitestack.com/
   user: apiuser
 whitesdnSecrets:
