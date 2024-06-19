@@ -56,11 +56,6 @@ spec:
             secretKeyRef:
               key: PASSWORD
               name: {{ include "helm.fullname" . }}-whitesdn-secrets
-        - name: NS_UUID
-          valueFrom:
-            configMapKeyRef:
-              key: NS_UUID
-              name: {{ include "helm.fullname" . }}-whitesdn-config
         - name: WHITESDN_AZ
           valueFrom:
             configMapKeyRef:
