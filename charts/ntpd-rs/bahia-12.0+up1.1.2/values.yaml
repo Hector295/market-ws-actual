@@ -1,0 +1,46 @@
+config: |
+  # Configuration reference
+  # https://docs.ntpd-rs.pendulum-project.org/man/ntp.toml.5/
+  [[source]]
+  mode = "server"
+  address = "10.0.0.1"
+
+  [observability]
+  # Do not change this path, it's used by the metrics exporter.
+  observation-path = "/shared/observe"
+  metrics-exporter-listen = "0.0.0.0:9975"
+
+  [synchronization]
+  # When using one source of type "server" we need to lower
+  # the minimum number of agreeing sources so that the daemon
+  # can change the host's clock.
+  minimum-agreeing-sources = 1
+
+image:
+  repository: ghcr.io/whitestack/ntpd-rs
+  pullPolicy: IfNotPresent
+  tag: ""
+
+serviceMonitor:
+  enabled: false
+  path: /metrics
+  interval: ""
+  scrapeTimeout: ""
+  jobLabel: ""
+
+imagePullSecrets: []
+
+resources:
+  limits:
+    memory: 200Mi
+  requests:
+    cpu: 100m
+    memory: 200Mi
+
+tolerations:
+- key: node-role.kubernetes.io/control-plane
+  operator: Exists
+  effect: NoSchedule
+- key: node-role.kubernetes.io/master
+  operator: Exists
+  effect: NoSchedule

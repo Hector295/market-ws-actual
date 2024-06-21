@@ -1,0 +1,17 @@
+annotations:
+  catalog.cattle.io/display-name: ntpd-rs
+  catalog.cattle.io/namespace: whitestack-tools
+  catalog.cattle.io/release-name: ntpd-rs
+apiVersion: v2
+name: ntpd-rs
+description: Helm chart for ntpd-rs
+type: application
+version: 1.1.2
+appVersion: "v1.1.2"
+icon: "https://avatars.githubusercontent.com/u/124210749?s=48&v=4"
+sources:
+- "https://github.com/pendulum-project/ntpd-rs"
+home: "https://github.com/pendulum-project/ntpd-rs"
+maintainers:
+- name: Alejandro Macedo
+  email: amacedo@whitestack.com

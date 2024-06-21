@@ -1,0 +1,26 @@
+{{- if .Values.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "ntpd-rs.fullname" . }}-metrics
+  labels: {{- include "ntpd-rs.labels" . | nindent 4 }}
+    app.kubernetes.io/component: metrics
+spec:
+  {{- if .Values.serviceMonitor.jobLabel }}
+  jobLabel: {{ .Values.serviceMonitor.jobLabel }}
+  {{- end }}
+  selector:
+    matchLabels: {{- include "ntpd-rs.selectorLabels" . | nindent 6 }}
+  endpoints:
+  - port: metrics
+    path: {{ .Values.serviceMonitor.path }}
+    {{- if .Values.serviceMonitor.interval }}
+    interval: {{ .Values.serviceMonitor.interval }}
+    {{- end }}
+    {{- if .Values.serviceMonitor.scrapeTimeout }}
+    scrapeTimeout: {{ .Values.serviceMonitor.scrapeTimeout }}
+    {{- end }}
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+{{- end }}

@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "ntpd-rs.fullname" . }}
+  labels: {{- include "ntpd-rs.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels: {{- include "ntpd-rs.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{- include "ntpd-rs.labels" . | nindent 8 }}
+    spec:
+      tolerations: {{- toYaml .Values.tolerations | nindent 6 }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets: {{- toYaml . | nindent 6 }}
+      {{- end }}
+      containers:
+      - name: ntpd-rs
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        args:
+        - -c
+        - /etc/ntpd-rs/ntp.toml
+        resources: {{- toYaml .Values.resources | nindent 10 }}
+        securityContext:
+          capabilities:
+            add:
+            - SYS_TIME
+        volumeMounts:
+        - name: config
+          mountPath: /etc/ntpd-rs
+          readOnly: true
+        - name: shared-data
+          mountPath: /shared
+        readinessProbe:
+          exec:
+            command:
+            - ntp-ctl
+            - status
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      - name: ntpd-metrics
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        command:
+        - ntp-metrics-exporter
+        args:
+        - -c
+        - /etc/ntpd-rs/ntp.toml
+        resources: {{- toYaml .Values.resources | nindent 10 }}
+        volumeMounts:
+        - name: config
+          mountPath: /etc/ntpd-rs
+          readOnly: true
+        - name: shared-data
+          mountPath: /shared
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 9975
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      volumes:
+      - name: config
+        configMap:
+          name: {{ include "ntpd-rs.fullname" . }}
+      - name: shared-data
+        emptyDir: {}
