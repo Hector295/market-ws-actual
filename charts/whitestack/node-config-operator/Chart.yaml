@@ -1,3 +1,7 @@
+annotations:
+  catalog.cattle.io/display-name: Node Config Operator
+  catalog.cattle.io/namespace: nco-system
+  catalog.cattle.io/release-name: nco
 apiVersion: v2
 name: node-config-operator
 description: A Helm chart for Kubernetes

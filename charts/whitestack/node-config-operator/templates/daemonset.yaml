@@ -97,6 +97,7 @@ spec:
           name: systemd
         - mountPath: /etc/host/hosts
           name: hosts
+      hostNetwork: true
       serviceAccountName: {{ include "chart.fullname" . }}-controller-manager
       terminationGracePeriodSeconds: 10
       tolerations:
