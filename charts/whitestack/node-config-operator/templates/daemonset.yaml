@@ -61,6 +61,11 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
+        - name: HOSTFS_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              key: HOSTFS_ENABLED
+              name: {{ include "chart.fullname" . }}-manager-config
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: {{ quote .Values.kubernetesClusterDomain }}
         image: {{ .Values.controllerManager.manager.image.repository }}:{{ .Values.controllerManager.manager.image.tag
@@ -91,13 +96,19 @@ spec:
           name: modules-load-d
         - mountPath: /lib/modules
           name: lib-modules
-        - mountPath: /run
-          name: run
-        - mountPath: /etc/systemd
-          name: systemd
         - mountPath: /etc/host/hosts
           name: hosts
+        {{- if .Values.managerConfig.hostfsEnabled }}
+        - mountPath: /host
+          name: host-fs
+        {{- end }}
+      {{- if .Values.managerConfig.hostfsEnabled }}
+      hostIPC: true
+      {{- end }}
       hostNetwork: true
+      {{- if .Values.managerConfig.hostfsEnabled }}
+      hostPID: true
+      {{- end }}
       serviceAccountName: {{ include "chart.fullname" . }}-controller-manager
       terminationGracePeriodSeconds: 10
       tolerations:
@@ -110,22 +121,27 @@ spec:
       volumes:
       - hostPath:
           path: /etc/sysctl.d
+          type: DirectoryOrCreate
         name: sysctl-d
       - hostPath:
           path: /etc/sysctl.conf
+          type: FileOrCreate
         name: sysctl
       - hostPath:
           path: /etc/modules-load.d
+          type: DirectoryOrCreate
         name: modules-load-d
       - hostPath:
           path: /lib/modules
+          type: Directory
         name: lib-modules
       - hostPath:
-          path: /run
-        name: run
-      - hostPath:
-          path: /etc/systemd
-        name: systemd
-      - hostPath:
           path: /etc/hosts
+          type: File
         name: hosts
+      {{- if .Values.managerConfig.hostfsEnabled }}
+      - hostPath:
+          path: /
+          type: Directory
+        name: host-fs
+      {{- end }}

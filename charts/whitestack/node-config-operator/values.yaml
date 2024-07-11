@@ -39,6 +39,8 @@ controllerManager:
   serviceAccount:
     annotations: {}
 kubernetesClusterDomain: cluster.local
+managerConfig:
+  hostfsEnabled: false
 metricsService:
   ports:
   - name: https
