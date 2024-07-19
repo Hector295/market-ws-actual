@@ -35,6 +35,18 @@ spec:
           spec:
             description: NodeConfigSpec defines the desired state of NodeConfig
             properties:
+              aptPackages:
+                description: List of apt packages to install
+                items:
+                  properties:
+                    name:
+                      type: string
+                    version:
+                      type: string
+                  required:
+                  - name
+                  type: object
+                type: array
               hosts:
                 description: List of hosts to install to /etc/hosts
                 items:

@@ -5,4 +5,5 @@ metadata:
   labels:
   {{- include "chart.labels" . | nindent 4 }}
 data:
+  APT_ENABLED: {{ .Values.managerConfig.aptEnabled | quote }}
   HOSTFS_ENABLED: {{ .Values.managerConfig.hostfsEnabled | quote }}
