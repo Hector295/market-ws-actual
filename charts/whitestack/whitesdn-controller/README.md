@@ -2,7 +2,7 @@
 
 This chart install `whitesdn-controlller`, a Kubernetes controller that manages
 the lifecycle of networks and subnets in a WhiteSdn cluster for baremetal worker
-nodes that use secondary pod interfaces such as SR-IOV, IPVlan and MacVlan.
+nodes that use secondary pod interfaces such as SR-IOV and VLAN.
 
 ## Configuration
 
@@ -37,3 +37,33 @@ You need the following information to install this controller:
     ]
   }
   ```
+
+## Verify Installation
+
+This chart will install the controller as a Deployment in the defined namespace.
+To check if it's installed correctly you can run the following command:
+
+```shell
+kubectl -n whitesdn-controller get pods
+
+NAME                                           READY   STATUS    RESTARTS   AGE
+whitesdn-controller-manager-6c7865874f-n96hf   2/2     Running   0          43s
+```
+
+And retrieve its logs by running:
+
+```shell
+kubectl -n whitesdn-controller logs whitesdn-controller-manager-6c7865874f-n96hf
+
+2024-07-19T22:08:33Z INFO setup   starting manager
+2024-07-19T22:08:33Z INFO starting server {"kind": "health probe", "addr": "[::]:8081"}
+...
+```
+
+## Usage
+
+This controller runs everytime a NAD resource is modified and periodically after
+that so user interaction is not required. You can verify if a NAD has been
+processed correctly by checking if a finalizer is present in the manifest named
+`whitesdn.whitestack.com/finalizer`. If the finalizer is not present you should
+check if there are any errors in the controller's logs.
