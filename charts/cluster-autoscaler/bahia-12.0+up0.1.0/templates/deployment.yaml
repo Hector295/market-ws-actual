@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "cluster-autoscaler.fullname" . }}-cluster-autoscaler
+  labels:
+    app: cluster-autoscaler
+  {{- include "cluster-autoscaler.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.clusterAutoscaler.replicas }}
+  selector:
+    matchLabels:
+      app: cluster-autoscaler
+    {{- include "cluster-autoscaler.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: cluster-autoscaler
+      {{- include "cluster-autoscaler.selectorLabels" . | nindent 8 }}
+      annotations:
+        prometheus.io/port: "8085"
+        prometheus.io/scrape: "true"
+    spec:
+      containers:
+      - command:
+        - ./cluster-autoscaler
+        - --v=4
+        - --stderrthreshold=info
+        - --cloud-provider=rancher
+        - --cloud-config=/mnt/config.yaml
+        - --skip-nodes-with-local-storage=false
+        env:
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        image: {{ .Values.clusterAutoscaler.clusterAutoscaler.image.repository }}:{{ .Values.clusterAutoscaler.clusterAutoscaler.image.tag
+          | default .Chart.AppVersion }}
+        imagePullPolicy: {{ .Values.clusterAutoscaler.clusterAutoscaler.imagePullPolicy
+          }}
+        name: cluster-autoscaler
+        resources: {{- toYaml .Values.clusterAutoscaler.clusterAutoscaler.resources | nindent
+          10 }}
+        securityContext: {{- toYaml .Values.clusterAutoscaler.clusterAutoscaler.containerSecurityContext
+          | nindent 10 }}
+        volumeMounts:
+        - mountPath: /etc/ssl/certs
+          name: ssl-certs
+          readOnly: true
+        - mountPath: /mnt/config.yaml
+          name: autoscaler-config
+          readOnly: true
+          subPath: config.yaml
+      nodeSelector: {{- toYaml .Values.clusterAutoscaler.nodeSelector | nindent 8 }}
+      priorityClassName: system-cluster-critical
+      securityContext:
+        fsGroup: 65534
+        runAsNonRoot: true
+        runAsUser: 65534
+        seccompProfile:
+          type: RuntimeDefault
+      serviceAccountName: {{ include "cluster-autoscaler.fullname" . }}-cluster-autoscaler
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+        operator: Exists
+      - effect: NoExecute
+        key: node-role.kubernetes.io/etcd
+        operator: Exists
+      volumes:
+      - configMap:
+          name: {{ include "cluster-autoscaler.fullname" . }}-autoscaler-config
+        name: autoscaler-config
+      - configMap:
+          name: {{ include "cluster-autoscaler.fullname" . }}-rancher-ca
+        name: ssl-certs

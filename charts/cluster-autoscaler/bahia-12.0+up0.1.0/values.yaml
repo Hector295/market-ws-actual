@@ -1,0 +1,46 @@
+whiteCruiserConfig:
+    # whitecruiser api url
+    url: ""
+    # bearer token
+    token: ""
+    # cluster name
+    clusterName: ""
+    clusterNamespace: fleet-default
+clusterAutoscaler:
+  clusterAutoscaler:
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      readOnlyRootFilesystem: true
+    image:
+      repository: registry.k8s.io/autoscaling/cluster-autoscaler
+      tag: v1.26.1
+    imagePullPolicy: Always
+    resources:
+      limits:
+        cpu: 100m
+        memory: 600Mi
+      requests:
+        cpu: 100m
+        memory: 600Mi
+  nodeSelector:
+    node-role.kubernetes.io/control-plane: "true"
+  replicas: 1
+  serviceAccount:
+    annotations: {}
+kubernetesClusterDomain: cluster.local
+rancherCa:
+  caCertificatesCrt: |-
+    -----BEGIN CERTIFICATE-----
+    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    -----END CERTIFICATE-----
