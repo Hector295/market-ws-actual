@@ -61,6 +61,11 @@ spec:
             configMapKeyRef:
               key: AVAILABILITY_ZONE
               name: {{ include "helm.fullname" . }}-whitesdn-config
+        - name: INSECURE_SKIP_VERIFY
+          valueFrom:
+            configMapKeyRef:
+              key: INSECURE_SKIP_VERIFY
+              name: {{ include "helm.fullname" . }}-whitesdn-config
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: {{ quote .Values.kubernetesClusterDomain }}
         image: {{ .Values.manager.manager.image.repository }}:{{ .Values.manager.manager.image.tag
@@ -84,6 +89,8 @@ spec:
         volumeMounts:
         - mountPath: /data
           name: whitesdn-state
+        - mountPath: /certs
+          name: whitesdn-ca-cert
       securityContext:
         runAsNonRoot: true
       serviceAccountName: {{ include "helm.fullname" . }}-manager
@@ -92,3 +99,6 @@ spec:
       - configMap:
           name: {{ include "helm.fullname" . }}-whitesdn-state
         name: whitesdn-state
+      - configMap:
+          name: {{ include "helm.fullname" . }}-whitesdn-ca-cert
+        name: whitesdn-ca-cert

@@ -51,8 +51,11 @@ metricsService:
     protocol: TCP
     targetPort: https
   type: ClusterIP
+whitesdnCaCert:
+  certPem: ""
 whitesdnConfig:
   availabilityZone: WCRUISER_test-zone
+  insecureSkipVerify: "false"
   url: http://whitesdn.ocp2.tcloud.whitestack.com/
   user: apiuser
 whitesdnSecrets:
