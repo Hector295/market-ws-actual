@@ -1,0 +1,18 @@
+annotations:
+  catalog.cattle.io/display-name: Ceph-csi-cephfs
+  catalog.cattle.io/namespace: cephfs-system
+  catalog.cattle.io/release-name: ceph-csi-cephfs
+apiVersion: v1
+appVersion: 3.10.2
+description: Container Storage Interface (CSI) driver, provisioner, snapshotter and
+  resizer for Ceph cephfs
+home: https://github.com/ceph/ceph-csi
+icon: https://raw.githubusercontent.com/ceph/ceph-csi/v3.10.2/assets/ceph-logo.png
+keywords:
+- ceph
+- cephfs
+- ceph-csi
+name: ceph-csi-cephfs
+sources:
+- https://github.com/ceph/ceph-csi/tree/v3.10.2/charts/ceph-csi-cephfs
+version: 3.10.2
