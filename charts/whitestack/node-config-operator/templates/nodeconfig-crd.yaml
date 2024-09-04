@@ -47,6 +47,29 @@ spec:
                   - name
                   type: object
                 type: array
+              blockInFile:
+                description: List of blocks to add to files
+                items:
+                  properties:
+                    beginMarker:
+                      default: '# BEGIN MARKER NCO'
+                      description: Marker that signals the start of a block
+                      type: string
+                    content:
+                      type: string
+                    endMarker:
+                      default: '# END MARKER NCO'
+                      description: Marker that signals the end of the block
+                      type: string
+                    filename:
+                      type: string
+                  required:
+                  - beginMarker
+                  - content
+                  - endMarker
+                  - filename
+                  type: object
+                type: array
               hosts:
                 description: List of hosts to install to /etc/hosts
                 items:
