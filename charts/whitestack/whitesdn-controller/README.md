@@ -62,8 +62,14 @@ kubectl -n whitesdn-controller logs whitesdn-controller-manager-6c7865874f-n96hf
 
 ## Usage
 
-This controller runs everytime a NAD resource is modified and periodically after
-that so user interaction is not required. You can verify if a NAD has been
-processed correctly by checking if a finalizer is present in the manifest named
-`whitesdn.whitestack.com/finalizer`. If the finalizer is not present you should
-check if there are any errors in the controller's logs.
+This controller runs everytime a NAD resource is created or modified and
+periodically after that so user interaction is not required. This controller
+will configure the Kubernetes nodes that have the SR-IOV operator label
+`feature.node.kubernetes.io/network-sriov.capable=true` or the custom label
+`whitestack.com/whitesdn-controller=true`, so if your cluster is not using the
+SR-IOV operator please set the custom label in the required nodes.
+
+You can verify if a NAD has been processed correctly by checking if a finalizer
+is present in the manifest named `whitesdn.whitestack.com/finalizer`. If the
+finalizer is not present you should check if there are any errors in the
+controller's logs.
