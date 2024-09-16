@@ -128,6 +128,22 @@ spec:
                   - operator
                   type: object
                 type: array
+              systemdOverrides:
+                description: List of systemd overrides to add to existing systemd units
+                items:
+                  properties:
+                    file:
+                      description: Contents of file
+                      type: string
+                    name:
+                      description: Name of unit to override, must have service or slice
+                        suffix
+                      type: string
+                  required:
+                  - file
+                  - name
+                  type: object
+                type: array
               systemdUnits:
                 description: List of systemd units to install
                 items:
