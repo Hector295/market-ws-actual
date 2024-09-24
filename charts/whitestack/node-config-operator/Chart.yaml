@@ -4,7 +4,7 @@ annotations:
   catalog.cattle.io/release-name: nco
 apiVersion: v2
 name: node-config-operator
-description: A Helm chart for Kubernetes
+description: Operator to configure Kubernetes' nodes
 type: application
 version: 0.1.0
-appVersion: "0.1.0"
+appVersion: "v0.1.0"
