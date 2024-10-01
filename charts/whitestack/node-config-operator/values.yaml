@@ -27,7 +27,7 @@ controllerManager:
     containerSecurityContext:
       privileged: true
     image:
-      repository: gcr.io/whitestack/whitecruiser/node-config-operator
+      repository: ghcr.io/whitestack/node-config-operator
       tag: latest
     resources:
       limits:
