@@ -86,7 +86,9 @@ not using the SR-IOV operator please set the custom label in the required nodes.
 You can verify if a NAD has been processed correctly by checking if a finalizer
 is present in the manifest named `whitesdn.whitestack.com/finalizer`. If the
 finalizer is not present you should check if there are any errors in the
-controller's logs.
+controller's logs. If you need the controller to ignore a NAD you can set the
+annotation `whitestack.com/process-nad` to `"false"` and the controller will not
+process it.
 
 If your NAD is of type `sriov` or `vlan`, all the required information to create
 the resources is already on the `cni` configuration. However if your NAD is of
