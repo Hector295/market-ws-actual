@@ -1,0 +1,49 @@
+annotations:
+  artifacthub.io/changes: |-
+    - description: 'kubernetes: fetch ConfigMaps when keys are configured'
+      kind: fixed
+      links:
+      - name: GitHub commit
+        url: https://github.com/enix/x509-certificate-exporter/commit/77f58c10c84021936778adf9f58f833baeddf481
+      - name: 'GitHub issue #368'
+        url: https://github.com/enix/x509-certificate-exporter/issues/368
+  artifacthub.io/containsSecurityUpdates: "false"
+  artifacthub.io/license: MIT
+  artifacthub.io/links: |
+    - name: Chart Sources
+      url: https://github.com/enix/x509-certificate-exporter/tree/master/deploy/charts/x509-certificate-exporter
+    - name: Application Sources
+      url: https://github.com/enix/x509-certificate-exporter
+    - name: Helm Repository
+      url: https://charts.enix.io
+    - name: Grafana Dashboard
+      url: https://grafana.com/grafana/dashboards/13922
+  artifacthub.io/prerelease: "false"
+  catalog.cattle.io/display-name: X.509 Certificate Exporter
+  catalog.cattle.io/release-name: x509-certificate-exporter
+  catalog.cattle.io/kube-version: '>= 1.19.0-0'
+  catalog.cattle.io/namespace: monitoring
+apiVersion: v2
+appVersion: 3.18.1
+description: A Prometheus exporter for certificates focusing on expiration monitoring
+home: https://github.com/enix/x509-certificate-exporter
+icon: https://github.githubassets.com/images/icons/emoji/unicode/1f50f.png
+keywords:
+- prometheus
+- exporter
+- certificate
+- expiration
+maintainers:
+- email: contact@enix.fr
+  name: Enix
+  url: https://github.com/enixsas
+- email: root@devcat.org
+  name: Thibault Vincent
+  url: https://github.com/npdgm
+- email: arthur.chaloin@enix.fr
+  name: Arthur Chaloin
+name: x509-certificate-exporter
+sources:
+- https://github.com/enix/x509-certificate-exporter
+type: application
+version: 3.18.1
