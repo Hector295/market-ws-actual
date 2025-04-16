@@ -74,14 +74,14 @@ installCRDs: false
 crds:
   # This option decides if the CRDs should be installed
   # as part of the Helm installation.
-  enabled: false
+  enabled: true
 
   # This option makes it so that the "helm.sh/resource-policy": keep
   # annotation is added to the CRD. This will prevent Helm from uninstalling
   # the CRD when the Helm release is uninstalled.
   # WARNING: when the CRDs are removed, all cert-manager custom resources
   # (Certificates, Issuers, ...) will be removed too by the garbage collector.
-  keep: true
+  keep: false
 
 # +docs:section=Controller
 
@@ -94,7 +94,7 @@ crds:
 #
 # Note that cert-manager uses leader election to ensure that there can
 # only be a single instance active at a time.
-replicaCount: 1
+replicaCount: 2
 
 # Deployment update strategy for the cert-manager controller deployment.
 # For more information, see the [Kubernetes documentation](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy).
@@ -508,7 +508,7 @@ prometheus:
 
   servicemonitor:
     # Create a ServiceMonitor to add cert-manager to Prometheus.
-    enabled: false
+    enabled: true
 
     # The namespace that the service monitor should live in, defaults
     # to the cert-manager namespace.
