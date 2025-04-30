@@ -1,0 +1,25 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "chart.fullname" . }}-configuration-whitesdnconfig-editor-role
+  labels:
+  {{- include "chart.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - configuration.whitestack.com
+  resources:
+  - whitesdnconfigs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - configuration.whitestack.com
+  resources:
+  - whitesdnconfigs/status
+  verbs:
+  - get

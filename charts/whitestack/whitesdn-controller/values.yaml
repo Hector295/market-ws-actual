@@ -1,31 +1,10 @@
 kubernetesClusterDomain: cluster.local
 manager:
-  kubeRbacProxy:
-    args:
-    - --secure-listen-address=0.0.0.0:8443
-    - --upstream=http://127.0.0.1:8080/
-    - --logtostderr=true
-    - --v=0
-    containerSecurityContext:
-      allowPrivilegeEscalation: false
-      capabilities:
-        drop:
-        - ALL
-    image:
-      repository: gcr.io/kubebuilder/kube-rbac-proxy
-      tag: v0.15.0
-    resources:
-      limits:
-        cpu: 500m
-        memory: 128Mi
-      requests:
-        cpu: 5m
-        memory: 64Mi
   manager:
     args:
-    - --health-probe-bind-address=:8081
-    - --metrics-bind-address=127.0.0.1:8080
+    - --metrics-bind-address=:8443
     - --leader-elect
+    - --health-probe-bind-address=:8081
     containerSecurityContext:
       allowPrivilegeEscalation: false
       capabilities:
@@ -33,7 +12,7 @@ manager:
         - ALL
     image:
       repository: gcr.io/whitestack/whitecruiser/whitesdn-controller
-      tag: v0.2.0
+      tag: v0.3.0
     resources:
       limits:
         cpu: 500m
@@ -41,6 +20,8 @@ manager:
       requests:
         cpu: 10m
         memory: 64Mi
+  podSecurityContext:
+    runAsNonRoot: true
   replicas: 1
   serviceAccount:
     annotations: {}
@@ -49,13 +30,15 @@ metricsService:
   - name: https
     port: 8443
     protocol: TCP
-    targetPort: https
+    targetPort: 8443
   type: ClusterIP
 whitesdnCaCert:
   certPem: ""
 whitesdnConfig:
   availabilityZone: WCRUISER_test-zone
+  errorRequeueTimeSeconds: "120"
   insecureSkipVerify: "false"
+  requeueTimeSeconds: "21600"
   url: http://whitesdn.ocp2.tcloud.whitestack.com/
   user: apiuser
 whitesdnSecrets:

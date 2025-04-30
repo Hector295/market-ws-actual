@@ -4,6 +4,26 @@ This chart install `whitesdn-controlller`, a Kubernetes controller that manages
 the lifecycle of networks and subnets in a WhiteSdn cluster for baremetal worker
 nodes that use secondary pod interfaces such as SR-IOV and VLAN.
 
+## Migration guide
+
+### To `v0.3.0`
+
+***BREAKING CHANGE***
+
+This new version changes how the UIDs of the WhiteSdn resources are generated so
+it's incompatible with previous versions.
+
+You have two choices when upgrading to this new version:
+
+- Delete all NADs to allow the previous version to delete all the WhiteSdn
+  resources and apply them when the new version is running.
+- Upgrade to the new version and manually delete the leftover resources in
+  WhiteSdn.
+
+It's recommended to use the first option, but if it's not possible you can
+identify the previous resources by checking that the name follows the pattern:
+`WCRUISER_<name>` instead of the new pattern `WCRUISER_<AZ>_<namespace>-<name>`.
+
 ## Configuration
 
 You need the following information to install this controller:
@@ -120,3 +140,10 @@ spec:
       }
     }
 ```
+
+## Extra Configuration
+
+- `whitesdnConfig.requeueTimeSeconds`: the period, in seconds, to requeue a
+  resource after a successful reconcile. Default is 6 hours.
+- `whitesdnConfig.errorRequeueTimeSeconds`: the period, in seconds, to requeue a
+  resource after an error in reconcile. Default is 2 minutes.
