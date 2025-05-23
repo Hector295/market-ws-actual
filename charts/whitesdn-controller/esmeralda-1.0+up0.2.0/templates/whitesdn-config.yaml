@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "helm.fullname" . }}-whitesdn-config
+  labels:
+  {{- include "helm.labels" . | nindent 4 }}
+data:
+  AVAILABILITY_ZONE: {{ .Values.whitesdnConfig.availabilityZone | quote }}
+  INSECURE_SKIP_VERIFY: {{ .Values.whitesdnConfig.insecureSkipVerify | quote }}
+  URL: {{ .Values.whitesdnConfig.url | quote }}
+  USER: {{ .Values.whitesdnConfig.user | quote }}
