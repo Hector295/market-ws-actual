@@ -1,2 +1,0 @@
-Check all CDI components:
-  kubectl get all -n cdi
